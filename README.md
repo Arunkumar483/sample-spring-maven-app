@@ -1,1 +1,1 @@
-# nginx-deployment-demo
+# sample-spring-app
