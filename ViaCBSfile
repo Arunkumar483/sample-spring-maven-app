@@ -1,0 +1,22 @@
+cgePipeline('docker') {
+    skipEnv 'qa', 'stage', 'prod'
+
+    buildAs('java-maven') {
+        jdkVersionMajor '8'
+        mavenVersion '3.8.1'
+    }
+
+    deployWith('helm') {
+		destroy true
+        role 'sandbox'
+        k8sCluster('aws') {
+            namespace 'kitchen'
+        }
+        chart {
+            repository 'cge-prod'
+            name 'viacbs-generic'
+            version '1.2.17'
+        }
+        values 'helm-values.yaml'
+    }
+}

@@ -1,0 +1,36 @@
+deployments:
+  d0:
+    containers:
+      c0:
+        disable_default_nr_env: true
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 100m
+          limits:
+            memory: 256Mi
+            cpu: 500m
+        ports:
+          http:
+            containerPort: 8080
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          periodSeconds: 10
+          failureThreshold: 60
+    replicas: 1
+    services:
+      s0:
+        type: ClusterIP
+        port: 8080
+        targetPort: 8080
+        protocol: TCP
+        ingress:
+          i0:
+            external: false
+            path: /
+            rewriteTarget: /
+            hosts:
+              "default": {}
